@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info:
+  title: STD24001
+  description: This is a specification of STD24001
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+paths:
+  /ping:
+    get:
+      summary: Ping route
+      responses:
+        '200':
+          description: Pong response
+          content:
+            text/plain:
+              schema:
+                type: string
+  /cars:
+    post:
+      summary: Create a car
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+      responses:
+        '201':
+          description: Car created
+    get:
+      summary: Get all cars
+      responses:
+        '200':
+          description: List of cars
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarSummary'
+  /cars/{car_id}:
+    get:
+      summary: Get car by ID
+      parameters:
+        - name: car_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Car details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+  /characteristics:
+    post:
+      summary: Create a characteristic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Characteristic'
+      responses:
+        '201':
+          description: Characteristic created
+    get:
+      summary: Get all characteristics
+      responses:
+        '200':
+          description: List of characteristics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Characteristic'
+components:
+  schemas:
+    Characteristic:
+      type: object
+      properties:
+        max_speed:
+          type: string
+        color:
+          type: string
+    Car:
+      type: object
+      properties:
+        id:
+          type: string
+        brand:
+          type: string
+        model:
+          type: string
+        characteristics:
+          $ref: '#/components/schemas/Characteristic'
+    CarSummary:
+      type: object
+      properties:
+        id:
+          type: string
+        brand:
+          type: string
+        model:
+          type: string
+        color:
+          type: string
